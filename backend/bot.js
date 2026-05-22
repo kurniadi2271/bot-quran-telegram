@@ -77,6 +77,8 @@ bot.onText(/\/api/, async (msg) => {
     *Tafsir Quraish*\n${data.tafsir_quraish || "-"}\n\n
     *Asbabun Nuzul*\n${data.asbabun_nuzul || "Tidak tersedia"}`;
     
+    const result = await pool.query(`SELECT chat_id FROM users`);
+    
     for (const row of result.rows) {
       const chatId = row.chat_id;
       try {
