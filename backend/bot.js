@@ -70,7 +70,33 @@ bot.onText(/\/api/, async (msg) => {
       surahMap[s.id] = s.name_id;
     });
 
-    const pesan = `📖 *Ayat Al-Qur'an (API)*\n\n*Surah:* ${surahMap[data.surah_id] || data.surah_id}\n*Ayat:* ${data.ayah_number}\n\n${data.arabic}\n\n🇮🇩 *Terjemahan*\n${data.translation_id}\n\n*Tafsir Quraish*\n${data.tafsir_quraish || "-"}\n\n*Asbabun Nuzul*\n${data.asbabun_nuzul || "Tidak tersedia"}`;
+    const pesan = `📖 *Ayat Al-Qur'an (API)*\n\n
+    *Surah:* ${surahMap[data.surah_id] || data.surah_id}\n
+    *Ayat:* ${data.ayah_number}\n\n${data.arabic}\n\n
+    🇮🇩 *Terjemahan*\n${data.translation_id}\n\n
+    *Tafsir Quraish*\n${data.tafsir_quraish || "-"}\n\n
+    *Asbabun Nuzul*\n${data.asbabun_nuzul || "Tidak tersedia"}`;
+    
+    for (const row of result.rows) {
+      const chatId = row.chat_id;
+      try {
+        if (data.image) {
+          await bot.sendPhoto(chatId, data.image);
+        }
+
+        await bot.sendMessage(chatId, pesan, { parse_mode: "Markdown" });
+
+        if (data.audio?.alafasy) {
+          await bot.sendAudio(chatId, data.audio.alafasy, {
+            caption: `🎧 Murottal ${surahMap[data.surah_id] || ''} Ayat ${data.ayah_number}`,
+          });
+        }
+
+        console.log(`✅ Sent to ${chatId}`);
+      } catch (err) {
+        console.log(`❌ Failed ${chatId}:`, err.message);
+      }
+    }
 
     await bot.sendMessage(chatId, pesan, { parse_mode: "Markdown" });
   } catch (err) {
@@ -114,7 +140,12 @@ async function sendDailyAyat() {
     const data = res.data.data;
     const surahMap = await getSurahMap();
 
-    const pesan = `📖 *Ayat Al-Qur'an Harian*\n\n*Surah:* ${surahMap[data.surah_id] || data.surah_id}\n*Ayat:* ${data.ayah_number}\n\n${data.arabic}\n\n🇮🇩 *Terjemahan*\n${data.translation_id}`;
+    const pesan = `📖 *Ayat Al-Qur'an Harian*\n\n
+    *Surah:* ${surahMap[data.surah_id] || data.surah_id}\n
+    *Ayat:* ${data.ayah_number}\n\n${data.arabic}\n\n
+    🇮🇩 *Terjemahan*\n${data.translation_id}\n\n
+    *Tafsir Quraish*\n${data.tafsir_quraish || "-"}\n\n
+    *Asbabun Nuzul*\n${data.asbabun_nuzul || "Tidak tersedia"}`;
 
     const result = await pool.query(`SELECT chat_id FROM users`);
 
