@@ -182,3 +182,30 @@
     border-right-color: var(--border);
   }
 }
+
+/* Dashboard tweaks */
+.avatar {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: linear-gradient(135deg,#6ee7b7,#3b82f6);
+  color: white;
+  font-weight: 700;
+}
+
+table tbody tr:hover {
+  background: #f8fafc;
+}
+
+table thead th {
+  font-size: 13px;
+  color: #6b7280;
+  text-transform: none;
+}
+
+@media (max-width: 768px) {
+  .avatar { width: 34px; height: 34px; }
+}
