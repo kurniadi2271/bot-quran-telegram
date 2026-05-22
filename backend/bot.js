@@ -1,11 +1,13 @@
 const TelegramBot = require("node-telegram-bot-api");
 require("dotenv").config();
 
+const pool = require("./db");
+
 const bot = new TelegramBot(process.env.TOKEN, {
   polling: true,
 });
 
-const pool = require("./db");
+console.log("🔥 BOT STARTED");
 
 bot.onText(/\/start/, async (msg) => {
   const chatId = msg.chat.id;
@@ -20,10 +22,7 @@ bot.onText(/\/start/, async (msg) => {
     [chatId]
   );
 
-  bot.sendMessage(
-    chatId,
-    "✅ Subscribe berhasil"
-  );
+  bot.sendMessage(chatId, "✅ Subscribe berhasil");
 });
 
 bot.onText(/\/stop/, async (msg) => {
@@ -34,10 +33,7 @@ bot.onText(/\/stop/, async (msg) => {
     [chatId]
   );
 
-  bot.sendMessage(
-    chatId,
-    "❌ Unsubscribe berhasil"
-  );
+  bot.sendMessage(chatId, "❌ Unsubscribe berhasil");
 });
 
-module.exports = bot;s
+module.exports = bot;

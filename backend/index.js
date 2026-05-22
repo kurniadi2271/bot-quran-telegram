@@ -3,6 +3,9 @@ const cors = require("cors");
 
 const pool = require("./db");
 
+// 🔥 INI PENTING (WAJIB ADA)
+require("./bot");
+
 const app = express();
 
 app.use(cors());
@@ -25,6 +28,6 @@ app.get("/users", async (req, res) => {
   res.json(result.rows);
 });
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log("API running");
 });
