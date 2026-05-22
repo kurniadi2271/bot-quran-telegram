@@ -188,13 +188,18 @@ bot.onText(/\/stop/, (msg) => {
 // =====================
 
 // tiap hari jam 07:00
-cron.schedule("0 7 * * *", async () => {
-  console.log("⏰ Sending daily ayat");
+cron.schedule(
+  "0 7 * * *",
+  async () => {
+    console.log("⏰ Sending daily ayat");
 
-  await getRandomAyat();
-
-  await kirimKeSemua();
-});
+    await getRandomAyat();
+    await kirimKeSemua();
+  },
+  {
+    timezone: "Asia/Jakarta",
+  }
+);
 
 // =====================
 // INIT
