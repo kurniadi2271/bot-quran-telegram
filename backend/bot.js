@@ -70,7 +70,7 @@ bot.onText(/\/api/, async (msg) => {
       surahMap[s.id] = s.name_id;
     });
 
-    const pesan = `📖 *Ayat Al-Qur'an (API)*\n\n*Surah:* ${surahMap[data.surah_id] || data.surah_id}\n*Ayat:* ${data.ayah_number}\n\n${data.arabic}\n\n🇮🇩 *Terjemahan*\n${data.translation_id}`;
+    const pesan = `📖 *Ayat Al-Qur'an (API)*\n\n*Surah:* ${surahMap[data.surah_id] || data.surah_id}\n*Ayat:* ${data.ayah_number}\n\n${data.arabic}\n\n🇮🇩 *Terjemahan*\n${data.translation_id}\n\n*Tafsir Quraish*\n${data.tafsir_quraish || "-"}\n\n*Asbabun Nuzul*\n${data.asbabun_nuzul || "Tidak tersedia"}`;
 
     await bot.sendMessage(chatId, pesan, { parse_mode: "Markdown" });
   } catch (err) {
